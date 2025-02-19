@@ -7,7 +7,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,22 +17,30 @@ class MyApp extends StatelessWidget {
         ),
         body: Container(
           height: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.memory,
-                size: 60,
-                color: Colors.red,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.memory,
+                    size: 60,
+                    color: Colors.red,
+                  ),
+                  SizedBox(width: 20), // Spacer between icon and text
+                  Text(
+                    "Flutter ROW",
+                    style: TextStyle(
+                      color: Colors.yellow,
+                      fontSize: 40,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                "Flutter ROW",
-                style: TextStyle(
-                  color: Colors.yellow,
-                  fontSize: 40,
-                ),
-              ),
+              SizedBox(height: 40), // Space between row and rating
+              RatingWidget(),  // Rating stars widget
             ],
           ),
         ),
@@ -41,4 +48,46 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+class RatingWidget extends StatefulWidget {
+  @override
+  _RatingWidgetState createState() => _RatingWidgetState();
+}
+
+class _RatingWidgetState extends State<RatingWidget> {
+  int _rating = 0; // Default rating is 0
+
+  void _setRating(int rating) {
+    setState(() {
+      _rating = rating;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(5, (index) {
+            return IconButton(
+              icon: Icon(
+                index < _rating ? Icons.star : Icons.star_border,
+                color: Colors.yellow,
+                size: 40,
+              ),
+              onPressed: () {
+                _setRating(index + 1);  // Rating starts from 1
+              },
+            );
+          }),
+        ),
+        SizedBox(height: 20),
+      ],
+    );
+  }
+}
+
+
 
